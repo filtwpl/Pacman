@@ -69,6 +69,16 @@ public void draw() {
 
   //showing blinky
   blinky.show();
+
+  //moving blinky every 1/2 sec
+  if (frameCount % 30 == 0)
+  {
+    blinky.haunt();
+  }
+
+  if (blinky.myX == mr.myX && blinky.myY == mr.myY) {
+    death();
+  }
 }
 
 //paccy boi keyboard to movement controls
@@ -214,4 +224,49 @@ class Ghost {
     ellipse(myX+9, myY+8, 7, 15);
   }
 
+  public void ghostClear() {
+    fill(0);
+    rect(myX-25, myY-25, 50, 50);
+  }
+
+  public void haunt() {
+    int random = (int) (Math.random() * 4) + 1;
+    if (random == 1) {
+      if (myX != width - 50){
+        ghostClear();
+        myX+=100;
+      }
+    } else if (random == 2) {
+      if (myX != 50) {
+        ghostClear();
+        myX-=100;
+      }
+    } else if (random == 3) {
+      if (myY != 50) {
+        ghostClear();
+        myY-=100;
+      }
+    } else if (random == 4) {
+      if (myY != height - 50) {
+        ghostClear();
+        myY+=100;
+      }
+    } else {
+      System.out.println("haunt() error");
+    }
+  }
+}
+
+public void mousePressed() {
+  if(mouseButton == RIGHT) {
+    background(0);
+    setup();
+    loop();
+  }
+}
+
+public void death() {
+  noLoop();
+  background(0);
+  text("you died. right click mouse twice to restart.", width/2, height/2);
 }
