@@ -7,6 +7,7 @@ Change window size as desired.
 //decl object instances
 Dot [] dots;
 Pacboi mr;
+Ghost blinky;
 
 public void setup() {
  size(600, 500);
@@ -39,6 +40,9 @@ public void setup() {
 
 //init paccy boi
  mr = new Pacboi();
+
+ //init blinky
+ blinky = new Ghost(255, 0,  0);
 }
 
 public void draw() {
@@ -62,6 +66,9 @@ public void draw() {
   //showing paccy boi
   fill(245, 238, 42);
   mr.wowee();
+
+  //showing blinky
+  blinky.show();
 }
 
 //paccy boi keyboard to movement controls
@@ -186,4 +193,25 @@ class Pacboi {
       myY+=100;
     }
   }
+}
+
+class Ghost {
+
+  protected int myX, myY, myCol;
+
+  Ghost(int r, int g, int b) {
+    myX = width - 50;
+    myY = height - 50;
+    myCol = color(r, g, b);
+  }
+
+  public void show() {
+    noStroke();
+    fill(myCol);
+    ellipse(myX, myY, 25, 25);
+    ellipse(myX-9, myY+8, 7, 15);
+    ellipse(myX, myY+8, 7, 15);
+    ellipse(myX+9, myY+8, 7, 15);
+  }
+
 }
