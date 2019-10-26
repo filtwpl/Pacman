@@ -70,14 +70,15 @@ public void draw() {
   //showing blinky
   blinky.show();
 
+  //if ghost and paccy boi touch, die
+  if (blinky.getGhoX() == mr.getPacX() && blinky.getGhoY() == mr.getPacY()) {
+    death();
+  }
+
   //moving blinky every 1/2 sec
   if (frameCount % 30 == 0)
   {
     blinky.haunt();
-  }
-
-  if (blinky.myX == mr.myX && blinky.myY == mr.myY) {
-    death();
   }
 }
 
@@ -137,6 +138,13 @@ class Pacboi {
     myDir = 1;
   }
 
+  public int getPacX() {
+    return myX;
+  }
+
+  public int getPacY() {
+    return myY;
+  }
 //show paccy boi depending on dir facing
 //don't fuck with the radians. p l e a s e. sometimes diff ways to say an
 //angle makes the whole paccy boi go poof. i'm probably doing something wrong.
@@ -149,8 +157,10 @@ class Pacboi {
       arc(myX, myY, 50, 50, 5*QUARTER_PI, TWO_PI+3*QUARTER_PI, PIE);
     } else if (myDir == 3) {
       arc(myX, myY, 50, 50, 7*QUARTER_PI, TWO_PI+5*QUARTER_PI, PIE);
-    } else {
+    } else if (myDir == 4) {
       arc(myX, myY, 50, 50, 0-5*QUARTER_PI, QUARTER_PI, PIE);
+    } else {
+      System.out.println("wowee() error");
     }
   }
 
@@ -213,6 +223,14 @@ class Ghost {
     myX = width - 50;
     myY = height - 50;
     myCol = color(r, g, b);
+  }
+
+  public int getGhoX() {
+    return myX;
+  }
+
+  public int getGhoY() {
+    return myY;
   }
 
   public void show() {
