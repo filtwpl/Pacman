@@ -7,7 +7,7 @@ Change window size as desired.
 //decl object instances
 Dot [] dots;
 Pacboi mr;
-Ghost blinky;
+Ghost blinky, pinky;
 
 public void setup() {
  size(800, 800);
@@ -41,8 +41,9 @@ public void setup() {
 //init paccy boi
  mr = new Pacboi();
 
- //init blinky
+ //init ghosts
  blinky = new Ghost(255, 0,  0);
+ pinky = new Ghost (255, 192, 203);
 }
 
 public void draw() {
@@ -57,7 +58,7 @@ public void draw() {
 
   //covering dots with blk rects if eaten
   for (int i=0; i<dots.length; i++) {
-    if (dots[i].myAte == true) {
+    if (dots[i].getMyAte() == true) {
       fill(0);
       rect(dots[i].myX-5, dots[i].myY-5, 10, 10);
     }
@@ -67,18 +68,34 @@ public void draw() {
   fill(245, 238, 42);
   mr.wowee();
 
-  //showing blinky
+  //showing ghosts
   blinky.show();
+  pinky.show();
 
-  //if ghost and paccy boi touch, die
+//if all dots gone, win
+  int dotsRem = 0;
+  for (int i=0; i<dots.length; i++) {
+    if (dots[i].getMyAte() == false) {
+      dotsRem++;
+    }
+  }
+  if (dotsRem == 0) {
+    win();
+  }
+
+  //if ghosts and paccy boi touch, die
   if (blinky.getGhoX() == mr.getPacX() && blinky.getGhoY() == mr.getPacY()) {
     death();
   }
+  if (pinky.getGhoX() == mr.getPacX() && pinky.getGhoY() == mr.getPacY()) {
+    death();
+  }
 
-  //moving blinky every 1 sec
+  //moving ghosts every 1 sec
   if (frameCount % 90 == 0)
   {
     blinky.haunt(mr.getPacX(), mr.getPacY());
+    pinky.randomHaunt();
   }
 }
 
@@ -112,6 +129,11 @@ class Dot {
     myX = x;
     myY = y;
     myAte = false;
+  }
+
+//getter for eaten or not bool
+  public boolean getMyAte() {
+    return myAte;
   }
 
 //setter function for eaten or not bool
@@ -320,10 +342,20 @@ public void mousePressed() {
   }
 }
 
+//win screen
+public void win() {
+  noLoop();
+  background(0);
+  textAlign(CENTER);
+  fill(255, 0, 0);
+  text("you won! right click mouse twice to restart", width/2, height/2);
+}
+
 //death screen
 public void death() {
   noLoop();
   background(0);
   textAlign(CENTER);
+  fill(255, 0, 0);
   text("you died. right click mouse twice to restart.", width/2, height/2);
 }
