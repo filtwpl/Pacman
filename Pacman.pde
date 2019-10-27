@@ -78,7 +78,7 @@ public void draw() {
   //moving blinky every 1/2 sec
   if (frameCount % 30 == 0)
   {
-    blinky.haunt();
+    blinky.haunt(mr.getPacX(), mr.getPacY());
   }
 }
 
@@ -247,33 +247,66 @@ class Ghost {
     rect(myX-25, myY-25, 50, 50);
   }
 
-  public void haunt() {
-    int random = (int) (Math.random() * 4) + 1;
-    if (random == 1) {
-      if (myX != width - 50){
+  public void haunt(int pacX, int pacY) {
+    if (pacX > myX) {
+      if (myX != width - 50) {
         ghostClear();
         myX+=100;
       }
-    } else if (random == 2) {
+    } else {
       if (myX != 50) {
         ghostClear();
         myX-=100;
       }
-    } else if (random == 3) {
-      if (myY != 50) {
+    }
+    if(pacY < myY) {
+      if (myY !=50) {
         ghostClear();
         myY-=100;
       }
-    } else if (random == 4) {
-      if (myY != height - 50) {
+    } else {
+      if(myY != height - 50) {
         ghostClear();
         myY+=100;
       }
-    } else {
-      System.out.println("haunt() error");
     }
+    // int random = (int) (Math.random() * 4) + 1;
+    // if (random == 1) {
+    //   if (myX != width - 50){
+    //     ghostClear();
+    //     myX+=100;
+    //   }
+    // } else if (random == 2) {
+    //   if (myX != 50) {
+    //     ghostClear();
+    //     myX-=100;
+    //   }
+    // } else if (random == 3) {
+    //   if (myY != 50) {
+    //     ghostClear();
+    //     myY-=100;
+    //   }
+    // } else if (random == 4) {
+    //   if (myY != height - 50) {
+    //     ghostClear();
+    //     myY+=100;
+    //   }
+    // } else {
+    //   System.out.println("haunt() error");
+    // }
   }
 }
+
+  	// 	if (mouseX > myX) {
+ 	// 		myX = myX + (int) (Math.random() * 5) - 1;
+ 	// 	} else {
+ 	// 		myX = myX + (int) (Math.random() * 5) - 4;
+ 	// 	}
+ 	// 	if (mouseY > myY) {
+ 	// 		myY = myY + (int) (Math.random() * 5) - 1;
+ 	// 	} else {
+ 	// 		myY = myY + (int) (Math.random() * 5) - 4;
+ 	// 	}
 
 public void mousePressed() {
   if(mouseButton == RIGHT) {
