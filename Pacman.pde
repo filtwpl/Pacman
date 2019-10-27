@@ -1,4 +1,4 @@
-/*This is Pacman, but minus the maze walls, ghosts, timers, points, lives, etc.
+/*This is Pacman, but minus the maze walls, timers, points, lives, etc.
 So basically it's Pacman, but Lame.
 Much comments here bc future smol brain me will need hand holding.
 Change window size as desired.
@@ -7,7 +7,7 @@ Change window size as desired.
 //decl object instances
 Dot [] dots;
 Pacboi mr;
-Ghost blinky, pinky;
+Ghost blinky, pinky, inky;
 
 public void setup() {
  size(800, 800);
@@ -44,6 +44,7 @@ public void setup() {
  //init ghosts
  blinky = new Ghost(255, 0,  0);
  pinky = new Ghost (255, 192, 203);
+ inky = new Ghost(0, 255, 255);
 }
 
 public void draw() {
@@ -71,6 +72,7 @@ public void draw() {
   //showing ghosts
   blinky.show();
   pinky.show();
+  inky.show();
 
 //if all dots gone, win
   int dotsRem = 0;
@@ -86,8 +88,9 @@ public void draw() {
   //if ghosts and paccy boi touch, die
   if (blinky.getGhoX() == mr.getPacX() && blinky.getGhoY() == mr.getPacY()) {
     death();
-  }
-  if (pinky.getGhoX() == mr.getPacX() && pinky.getGhoY() == mr.getPacY()) {
+  } else if (pinky.getGhoX() == mr.getPacX() && pinky.getGhoY() == mr.getPacY()) {
+    death();
+  } else if(inky.getGhoX() == mr.getPacX() && inky.getGhoX() == mr.getPacY()) {
     death();
   }
 
@@ -96,6 +99,7 @@ public void draw() {
   {
     blinky.haunt(mr.getPacX(), mr.getPacY());
     pinky.randomHaunt();
+    inky.randomHaunt();
   }
 }
 
@@ -181,10 +185,8 @@ class Pacboi {
       arc(myX, myY, 50, 50, 5*QUARTER_PI, TWO_PI+3*QUARTER_PI, PIE);
     } else if (myDir == 3) {
       arc(myX, myY, 50, 50, 7*QUARTER_PI, TWO_PI+5*QUARTER_PI, PIE);
-    } else if (myDir == 4) {
-      arc(myX, myY, 50, 50, 0-5*QUARTER_PI, QUARTER_PI, PIE);
     } else {
-      System.out.println("wowee() error");
+      arc(myX, myY, 50, 50, 0-5*QUARTER_PI, QUARTER_PI, PIE);
     }
   }
 
@@ -322,13 +324,11 @@ class Ghost {
         ghostClear();
         myY-=100;
       }
-    } else if (random == 4) {
+    } else {
       if (myY != height - 50) {
         ghostClear();
         myY+=100;
       }
-    } else {
-      System.out.println("haunt() error");
     }
   }
 }
