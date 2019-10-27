@@ -10,7 +10,7 @@ Pacboi mr;
 Ghost blinky;
 
 public void setup() {
- size(600, 500);
+ size(800, 800);
  background(0);
 
 //dots calcs
@@ -75,8 +75,8 @@ public void draw() {
     death();
   }
 
-  //moving blinky every 1/2 sec
-  if (frameCount % 30 == 0)
+  //moving blinky every 1 sec
+  if (frameCount % 90 == 0)
   {
     blinky.haunt(mr.getPacX(), mr.getPacY());
   }
@@ -138,10 +138,12 @@ class Pacboi {
     myDir = 1;
   }
 
+//getter for paccy x coord
   public int getPacX() {
     return myX;
   }
 
+//getter for paccy y coord
   public int getPacY() {
     return myY;
   }
@@ -215,24 +217,30 @@ class Pacboi {
   }
 }
 
+//the ghosts
 class Ghost {
 
+//decl ghost class member variables
   protected int myX, myY, myCol;
 
+//constructor, init ghost class member variables
   Ghost(int r, int g, int b) {
     myX = width - 50;
     myY = height - 50;
     myCol = color(r, g, b);
   }
 
+//getter for ghost x coord
   public int getGhoX() {
     return myX;
   }
 
+//getter for ghost y coord
   public int getGhoY() {
     return myY;
   }
 
+//show ghost at bottom right corner
   public void show() {
     noStroke();
     fill(myCol);
@@ -242,11 +250,13 @@ class Ghost {
     ellipse(myX+9, myY+8, 7, 15);
   }
 
+//covering ghost's old pos with blk rect when he moves
   public void ghostClear() {
     fill(0);
     rect(myX-25, myY-25, 50, 50);
   }
 
+//chase pacman
   public void haunt(int pacX, int pacY) {
     if (pacX > myX) {
       if (myX != width - 50) {
@@ -270,44 +280,38 @@ class Ghost {
         myY+=100;
       }
     }
-    // int random = (int) (Math.random() * 4) + 1;
-    // if (random == 1) {
-    //   if (myX != width - 50){
-    //     ghostClear();
-    //     myX+=100;
-    //   }
-    // } else if (random == 2) {
-    //   if (myX != 50) {
-    //     ghostClear();
-    //     myX-=100;
-    //   }
-    // } else if (random == 3) {
-    //   if (myY != 50) {
-    //     ghostClear();
-    //     myY-=100;
-    //   }
-    // } else if (random == 4) {
-    //   if (myY != height - 50) {
-    //     ghostClear();
-    //     myY+=100;
-    //   }
-    // } else {
-    //   System.out.println("haunt() error");
-    // }
+  }
+
+//random walk
+  public void randomHaunt() {
+    int random = (int) (Math.random() * 4) + 1;
+    if (random == 1) {
+      if (myX != width - 50){
+        ghostClear();
+        myX+=100;
+      }
+    } else if (random == 2) {
+      if (myX != 50) {
+        ghostClear();
+        myX-=100;
+      }
+    } else if (random == 3) {
+      if (myY != 50) {
+        ghostClear();
+        myY-=100;
+      }
+    } else if (random == 4) {
+      if (myY != height - 50) {
+        ghostClear();
+        myY+=100;
+      }
+    } else {
+      System.out.println("haunt() error");
+    }
   }
 }
 
-  	// 	if (mouseX > myX) {
- 	// 		myX = myX + (int) (Math.random() * 5) - 1;
- 	// 	} else {
- 	// 		myX = myX + (int) (Math.random() * 5) - 4;
- 	// 	}
- 	// 	if (mouseY > myY) {
- 	// 		myY = myY + (int) (Math.random() * 5) - 1;
- 	// 	} else {
- 	// 		myY = myY + (int) (Math.random() * 5) - 4;
- 	// 	}
-
+//restart game with right click
 public void mousePressed() {
   if(mouseButton == RIGHT) {
     background(0);
@@ -316,8 +320,10 @@ public void mousePressed() {
   }
 }
 
+//death screen
 public void death() {
   noLoop();
   background(0);
+  textAlign(CENTER);
   text("you died. right click mouse twice to restart.", width/2, height/2);
 }
