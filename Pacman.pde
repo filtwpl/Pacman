@@ -331,6 +331,12 @@ class Ghost {
       }
     }
   }
+
+// //biased random walk to the left
+//   public void biasedRandomHaunt() {
+//     int random = (int) (Math.random() * 5) + 1;
+//
+//   }
 }
 
 //restart game with right click
